@@ -21,24 +21,10 @@ jobs:
     - name: Install dependencies
       working-directory: apps/twitch-db-async-fetcher
       run: npm install
-    
-    - name: List directory structure
-      working-directory: apps/twitch-db-async-fetcher
-      run: |
-        echo "Listing current directory structure"
-        ls -al
   
     - name: Build TypeScript
       working-directory: apps/twitch-db-async-fetcher
       run: npm run build
-
-    - name: List directory structure after build
-      working-directory: apps/twitch-db-async-fetcher
-      run: |
-        echo "Listing directory structure after build"
-        ls -al
-        echo "Listing contents of dist directory after build"
-        ls -al dist
 
     - name: Change directory to the app folder
       working-directory: apps/twitch-db-async-fetcher
@@ -46,3 +32,29 @@ jobs:
       env:
         TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
         TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+    
+    - name: Generate new data file
+      run: |
+        echo "New data" > newfile.txt
+
+    - name: Add file to another repository
+      run: |
+        # Clone the target repository
+        git clone https://github.com/pajelonek/twitch-statistics-db.git target-db
+        cd target-db
+        
+        # Configure Git with credentials
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        
+        # Copy file to the target repository
+        cp ../newfile.txt .
+        
+        # Add, commit, and push changes
+        git add newfile.txt
+        git commit -m "Add new data file"
+        git push https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/pajelonek/twitch-statistics-db.git main
+        
+    - name: Cleanup
+      run: |
+        rm -rf target-repo
