@@ -18,6 +18,10 @@ jobs:
       with:
         node-version: '16'
 
+    - name: Install dependencies
+      working-directory: apps/twitch-db-async-fetcher
+      run: npm install
+
     - name: Change directory to the app folder
       working-directory: apps/twitch-db-async-fetcher
       run: npm start
