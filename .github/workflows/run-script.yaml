@@ -21,6 +21,26 @@ jobs:
     - name: Install dependencies
       working-directory: apps/twitch-db-async-fetcher
       run: npm install
+    
+    - name: List directory structure
+      working-directory: apps/twitch-db-async-fetcher
+      run: |
+        echo "Listing current directory structure"
+        ls -al
+        echo "Listing contents of dist directory"
+        ls -al dist
+
+    - name: Build TypeScript
+      working-directory: apps/twitch-db-async-fetcher
+      run: npm run build # Ensure TypeScript is compiled to the `dist` directory
+
+    - name: List directory structure after build
+      working-directory: apps/twitch-db-async-fetcher
+      run: |
+        echo "Listing directory structure after build"
+        ls -al
+        echo "Listing contents of dist directory after build"
+        ls -al dist
 
     - name: Change directory to the app folder
       working-directory: apps/twitch-db-async-fetcher
