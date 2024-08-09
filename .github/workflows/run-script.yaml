@@ -38,9 +38,11 @@ jobs:
         echo "New data" > newfile.txt
 
     - name: Add file to another repository
+      env:
+        TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
         # Clone the target repository
-        git clone https://github.com/pajelonek/twitch-statistics-db.git target-db
+        git clone https://x-access-token:${REPO_ACCESS_TOKEN}@github.com/pajelonek/twitch-statistics-db.git target-db
         cd target-db
         
         # Configure Git with credentials
@@ -53,7 +55,7 @@ jobs:
         # Add, commit, and push changes
         git add newfile.txt
         git commit -m "Add new data file"
-        git push https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/pajelonek/twitch-statistics-db.git main
+        git push https://x-access-token:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/pajelonek/twitch-statistics-db.git main
         
     - name: Cleanup
       run: |
