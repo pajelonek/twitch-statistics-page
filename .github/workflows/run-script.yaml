@@ -21,3 +21,6 @@ jobs:
     - name: Change directory to the app folder
       working-directory: apps/twitch-db-async-fetcher
       run: npm start
+      env:
+        TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+        TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
