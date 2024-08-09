@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/twitch-statistics-page/static/css/main.f855e6bc.css",
-    "main.js": "/twitch-statistics-page/static/js/main.ecdb4b3f.js",
-    "static/js/453.6a00d172.chunk.js": "/twitch-statistics-page/static/js/453.6a00d172.chunk.js",
+    "main.js": "/twitch-statistics-page/static/js/main.061d775d.js",
+    "static/js/400.df986185.chunk.js": "/twitch-statistics-page/static/js/400.df986185.chunk.js",
     "static/media/logo.svg": "/twitch-statistics-page/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/twitch-statistics-page/index.html",
     "main.f855e6bc.css.map": "/twitch-statistics-page/static/css/main.f855e6bc.css.map",
-    "main.ecdb4b3f.js.map": "/twitch-statistics-page/static/js/main.ecdb4b3f.js.map",
-    "453.6a00d172.chunk.js.map": "/twitch-statistics-page/static/js/453.6a00d172.chunk.js.map"
+    "main.061d775d.js.map": "/twitch-statistics-page/static/js/main.061d775d.js.map",
+    "400.df986185.chunk.js.map": "/twitch-statistics-page/static/js/400.df986185.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.ecdb4b3f.js"
+    "static/js/main.061d775d.js"
   ]
 }
