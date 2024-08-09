@@ -1,8 +1,9 @@
-async function performTask() {
-    // Your asynchronous code here
-    console.log("Task is running...");
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate async work
+import { fetchDataFromTwitch } from './twitch/DataFetcher';
+
+async function main() {
+    console.log("Fetching database task is running...");
+    fetchDataFromTwitch();
     console.log("Task completed!");
 }
 
-performTask();
+main();

@@ -1,0 +1,7 @@
+POST https://id.twitch.tv/oauth2/token?client_id=uqhmh0mjci0ki6hidqec8vgxk928c1&client_secret=yq93knx6cbf71mr6q9p0rnk3os2m1y&grant_type=client_credentials
+
+###
+
+GET https://api.twitch.tv/helix/streams?first=1&language=pl
+Authorization: Bearer 5ix1xci9lxwvq3ta44pijur522x1b8
+Client-Id: uqhmh0mjci0ki6hidqec8vgxk928c1
