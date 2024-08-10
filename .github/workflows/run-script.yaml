@@ -39,7 +39,6 @@ jobs:
       run: |
         # Clone the target repository
         git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git target-db
-        cd target-db
         
         # Configure Git with credentials
         git config user.name "twitch-statistics-bot"
@@ -47,6 +46,9 @@ jobs:
         
         # Copy all files from twitchDir to the target repository
         cp -r ../twitchDir/* .
+
+        # Go to the repository dir
+        cd target-db
 
         # Add, commit, and push changes
         git add .
