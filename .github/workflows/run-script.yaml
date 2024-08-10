@@ -50,23 +50,20 @@ jobs:
         ls -la 
 
         # Copy all files from twitchDir to the target repository
-        cp -r twitchDir/* target-db
+        mkdir -p target-db/twitch
+        cp -r twitchDir/* target-db/twitch/
 
         # List files in the workspace
         ls -la 
 
         # Go to the repository dir
-        cd target-db
+        cd target-db/twitch
 
         # Configure Git with credentials
         git config user.name "twitch-statistics-bot"
         git config user.email "actions@github.com"
-        
+
         # Add, commit, and push changes
         git add .
         git commit -m "Add new data files from twitch"
-
-        # Add, commit, and push changes
-        git add newfile.txt
-        git commit -m "Add new data file"
         git push https://x-access-token:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/pajelonek/twitch-statistics-db.git master
