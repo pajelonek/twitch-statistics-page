@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { AuthResponse } from "./model/TokenResponse";
 import { GetStreamsResponse, Stream } from "./model/GetStreamsResponse";
 import { config } from '../config/twitchApiConfig';
@@ -53,7 +53,7 @@ export async function getStreams(token: string, pagination?: string): Promise<Ge
             }
         });
 
-        if (response.status === 200) {
+        if (response.status === HttpStatusCode.Ok) {
             return response.data;
         } else {
             console.error(`Unexpected status code: ${response.status}`);

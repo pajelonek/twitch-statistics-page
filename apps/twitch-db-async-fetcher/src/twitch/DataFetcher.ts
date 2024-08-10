@@ -9,16 +9,7 @@ export async function fetchDataFromTwitch() {
     const token = await getAuthToken();
     const streams = await getAllStreams(token);
     const utilizedStreams = cleanStreamData(streams);
-    saveStreamsToFileWithTimestamp(utilizedStreams);
-}
-
-interface PreparedStreamersData {
-    [streamerId: string]: StreamerData;
-}
-  
-interface StreamerData {
-    timestamp: string;
-    viewerCount: number;
+    await saveStreamsToFileWithTimestamp(utilizedStreams);
 }
 
 export async function getAllStreams(token: string): Promise<Stream[]> {

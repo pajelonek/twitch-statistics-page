@@ -1,7 +1,7 @@
 {
   "name": "github-actions-scheduled-task",
   "version": "1.0.0",
-  "description": "A Node.js application that runs periodically.",
+  "description": "A Node.js application that runs periodically to collect streamers data",
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "axios": "^1.7.3",
-    "dotenv": "^16.4.5"
+    "cloudscraper": "^4.6.0",
+    "dotenv": "^16.4.5",
+    "ts-retry": "^4.2.5"
   }
 }

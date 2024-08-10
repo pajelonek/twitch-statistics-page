@@ -38,7 +38,7 @@ jobs:
         TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
         # Configure Git with credentials
-        cd apps/twitch-db-async-fetcher/dist/twitch
+        cd apps/twitch-db-async-fetcher/dist
 
         # List files in the workspace
         ls -la 
@@ -51,13 +51,16 @@ jobs:
 
         # Copy all files from twitchDir to the target repository
         mkdir -p target-db/twitch
-        cp -r twitchDir/* target-db/twitch/
+        mkdir -p target-db/kick
+        
+        cp -r twitch/twitchDir/* target-db/twitch/
+        cp -r kick/kickDir/* target-db/kick/
 
         # List files in the workspace
         ls -la 
 
         # Go to the repository dir
-        cd target-db/twitch
+        cd target-db
 
         # Configure Git with credentials
         git config user.name "twitch-statistics-bot"
