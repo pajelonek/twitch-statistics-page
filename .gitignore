@@ -30,3 +30,6 @@ yarn-error.log*
 
 # Twitch secrets
 /**/.env
+
+
+/**/*.http

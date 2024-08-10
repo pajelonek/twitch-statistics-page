@@ -44,6 +44,9 @@ jobs:
         git config user.name "twitch-statistics-bot"
         git config user.email "actions@github.com"
         
+        # List files in the workspace
+        ls -la ../
+
         # Copy all files from twitchDir to the target repository
         cp -r ../twitchDir/* .
 
