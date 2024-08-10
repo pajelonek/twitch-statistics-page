@@ -37,19 +37,28 @@ jobs:
       env:
         TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
-        # Clone the target repository
-        git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git target-db
-        
         # Configure Git with credentials
         git config user.name "twitch-statistics-bot"
         git config user.email "actions@github.com"
-        
+
+        # Configure Git with credentials
+        cd apps/twitch-db-async-fetcher/dist/twitch/twitchDir
+
+        # List files in the workspace
+        ls -la 
+
+        # Clone the target repository
+        git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git target-db
+
         # List files in the workspace
         ls -la 
 
         # Copy all files from twitchDir to the target repository
-        cp -r ../twitchDir/* .
+        cp -r twitchDir/* target-db
 
+        # List files in the workspace
+        ls -la 
+        
         # Go to the repository dir
         cd target-db
 
