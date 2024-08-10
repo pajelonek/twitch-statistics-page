@@ -17,7 +17,7 @@ export interface Stream {
 }
 
 export interface Pagination {
-    cursor: string;
+    cursor?: string;
 }
 
 export interface GetStreamsResponse {

@@ -2,7 +2,8 @@ import * as dotenv from 'dotenv';
 
 import axios from "axios";
 import { AuthResponse } from "./model/TokenResponse";
-import { GetStreamsResponse } from "./model/GetStreamsResponse";
+import { GetStreamsResponse, Stream } from "./model/GetStreamsResponse";
+import { config } from '../config/twitchApiConfig';
 
 dotenv.config();
 
@@ -37,10 +38,12 @@ export async function getAuthToken(): Promise<string> {
     }
 }
 
-export async function getStreams(token: string): Promise<GetStreamsResponse> {
-    const url = 'https://api.twitch.tv/helix/streams?first=100&language=pl';
+export async function getStreams(token: string, pagination?: string): Promise<GetStreamsResponse> {
+    let url = `https://api.twitch.tv/helix/streams?first=${config.first}&language=${config.language}`;
     const clientId = process.env.TWITCH_CLIENT_ID;
     const accessToken = token;
+
+    url = pagination ? `${url}&after=${pagination}` : url;
 
     try {
         const response = await axios.get<GetStreamsResponse>(url, {
@@ -51,7 +54,6 @@ export async function getStreams(token: string): Promise<GetStreamsResponse> {
         });
 
         if (response.status === 200) {
-            console.log('Successfully fetched stream data:', response.data);
             return response.data;
         } else {
             console.error(`Unexpected status code: ${response.status}`);
