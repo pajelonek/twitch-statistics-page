@@ -26,37 +26,33 @@ jobs:
       working-directory: apps/twitch-db-async-fetcher
       run: npm run build
 
-    - name: Change directory to the app folder
+    - name: Run script
       working-directory: apps/twitch-db-async-fetcher
       run: npm start
       env:
         TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
         TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
     
-    # - name: Generate new data file
-    #   run: |
-    #     echo "New data" > newfile.txt
+    - name: Add file to another repository
+      env:
+        TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      run: |
+        # Clone the target repository
+        git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git target-db
+        cd target-db
+        
+        # Configure Git with credentials
+        git config user.name "twitch-statistics-bot"
+        git config user.email "actions@github.com"
+        
+        # Copy all files from twitchDir to the target repository
+        cp -r ../twitchDir/* .
 
-    # - name: Add file to another repository
-    #   env:
-    #     TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-    #   run: |
-    #     # Clone the target repository
-    #     git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git target-db
-    #     cd target-db
-        
-    #     # Configure Git with credentials
-    #     git config user.name "github-actions"
-    #     git config user.email "actions@github.com"
-        
-    #     # Copy file to the target repository
-    #     cp ../newfile.txt .
-        
-    #     # Add, commit, and push changes
-    #     git add newfile.txt
-    #     git commit -m "Add new data file"
-    #     git push https://x-access-token:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/pajelonek/twitch-statistics-db.git master
-        
-    # - name: Cleanup
-    #   run: |
-    #     rm -rf target-repo
+        # Add, commit, and push changes
+        git add .
+        git commit -m "Add new data files from twitch"
+
+        # Add, commit, and push changes
+        git add newfile.txt
+        git commit -m "Add new data file"
+        git push https://x-access-token:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/pajelonek/twitch-statistics-db.git master
