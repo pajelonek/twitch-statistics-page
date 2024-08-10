@@ -38,10 +38,6 @@ jobs:
         TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
         # Configure Git with credentials
-        git config user.name "twitch-statistics-bot"
-        git config user.email "actions@github.com"
-
-        # Configure Git with credentials
         cd apps/twitch-db-async-fetcher/dist/twitch
 
         # List files in the workspace
@@ -62,6 +58,10 @@ jobs:
         # Go to the repository dir
         cd target-db
 
+        # Configure Git with credentials
+        git config user.name "twitch-statistics-bot"
+        git config user.email "actions@github.com"
+        
         # Add, commit, and push changes
         git add .
         git commit -m "Add new data files from twitch"
