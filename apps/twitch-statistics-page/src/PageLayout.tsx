@@ -1,5 +1,4 @@
 import './App.css';
-import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import { Box, Toolbar, IconButton, Typography } from '@mui/material';
 import Menu from '@mui/icons-material/Menu';
