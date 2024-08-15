@@ -8,16 +8,22 @@ function PageLayout() {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    const responseTest = fetch('https://raw.githubusercontent.com/pajelonek/twitch-statistics-page/master/apps/twitch-statistics-page/public/data/test/data.json')
-    .then(function(response){
-      console.log('test2: ' + response)
-      return response.json();
-    })
-    .then(function(myJson) {
-      setData(myJson.test);
-    });
+    fetch('data/test/data.json'
+      ,{
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         }
+      }
+      )
+        .then(function(response){
+          console.log(response)
+          return response.json();
+        })
+        .then(function(myJson) {
+          setData(myJson.test);
+        });
   }, []);
-
 
   return (
     <div className="App">
