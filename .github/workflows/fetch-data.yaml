@@ -38,14 +38,8 @@ jobs:
         # Configure Git with credentials
         cd apps/twitch-db-async-fetcher/dist
 
-        # List files in the workspace
-        ls -la 
-
         # Clone the target repository
         git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git target-db
-
-        # List files in the workspace
-        ls -la 
 
         # Copy all files from twitchDir to the target repository
         mkdir -p target-db/twitch
@@ -53,9 +47,6 @@ jobs:
         
         cp -r twitch/twitchDir/* target-db/twitch/
         cp -r kick/kickDir/* target-db/kick/
-
-        # List files in the workspace
-        ls -la 
 
         # Go to the repository dir
         cd target-db
