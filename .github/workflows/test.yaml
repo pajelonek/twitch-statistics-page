@@ -37,10 +37,8 @@ jobs:
         working-directory: apps/twitch-statistics-page
         run: npm run build
       - name: Setup Pages
-        working-directory: apps/twitch-statistics-page
         uses: actions/configure-pages@v4
       - name: Upload artifact
-        working-directory: apps/twitch-statistics-page
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
