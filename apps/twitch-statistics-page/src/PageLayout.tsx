@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 function PageLayout() {
 
   const [data, setData] = useState<any>(null);
-
+  const resourceUrl = import.meta.env.VITE_RESOURCE_URL;
   useEffect(() => {
-    fetch('data/test/data.json'
+    fetch(resourceUrl + 'data/test/data.json'
       ,{
         headers : {
           'Content-Type': 'application/json',
@@ -42,6 +42,7 @@ function PageLayout() {
             <Typography className="text-left" variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Statistics
             </Typography>
+            <h1>Vite is running in %MODE%</h1>
           </Toolbar>
         </AppBar>
       </Box>
