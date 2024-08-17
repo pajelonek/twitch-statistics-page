@@ -65,7 +65,11 @@ jobs:
         with:
           name: build-artifact
           path: apps/twitch-statistics-page/dist/
-
+      - name: Set up Java 17 for SonarCloud Scan
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
       - name: SonarCloud Scan
         working-directory: apps/twitch-statistics-page
         env:
