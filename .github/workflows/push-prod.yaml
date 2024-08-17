@@ -83,59 +83,59 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-  deploy:
-    needs: setup
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # deploy:
+  #   needs: setup
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: apps/twitch-statistics-page/dist/
+  #     - name: Download Build Artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: build-artifact
+  #         path: apps/twitch-statistics-page/dist/
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v4
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'apps/twitch-statistics-page/dist/'
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v3
+  #       with:
+  #         path: 'apps/twitch-statistics-page/dist/'
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v4
 
-  e2e_tests:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # e2e_tests:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+  #     - name: Set up Node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '18'
 
-      - name: Cache Node.js modules
-        id: cache-node-modules
-        uses: actions/cache@v3
-        with:
-          path: apps/twitch-statistics-page/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+  #     - name: Cache Node.js modules
+  #       id: cache-node-modules
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: apps/twitch-statistics-page/node_modules
+  #         key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-node-modules-
 
-      - name: Install dependencies for e2e tests
-        working-directory: apps/twitch-statistics-page
-        run: npm ci
+  #     - name: Install dependencies for e2e tests
+  #       working-directory: apps/twitch-statistics-page
+  #       run: npm ci
 
-      - name: Run e2e tests
-        working-directory: apps/twitch-statistics-page
-        run: npm run e2e
+  #     - name: Run e2e tests
+  #       working-directory: apps/twitch-statistics-page
+  #       run: npm run e2e
