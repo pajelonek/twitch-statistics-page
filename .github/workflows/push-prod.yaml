@@ -83,33 +83,33 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-  # deploy:
-  #   needs: setup
-  #   environment:
-  #     name: github-pages
-  #     url: ${{ steps.deployment.outputs.page_url }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  deploy:
+    needs: setup
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Download Build Artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: build-artifact
-  #         path: apps/twitch-statistics-page/dist/
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: apps/twitch-statistics-page/dist/
 
-  #     - name: Setup Pages
-  #       uses: actions/configure-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
-  #     - name: Upload artifact
-  #       uses: actions/upload-pages-artifact@v3
-  #       with:
-  #         path: 'apps/twitch-statistics-page/dist/'
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'apps/twitch-statistics-page/dist/'
 
-  #     - name: Deploy to GitHub Pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   # e2e_tests:
   #   needs: setup
