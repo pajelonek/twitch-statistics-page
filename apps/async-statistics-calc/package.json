@@ -1,10 +1,10 @@
 {
-  "name": "github-actions-scheduled-task",
+  "name": "async-statistics-calc",
   "version": "1.0.0",
-  "description": "A Node.js application that runs periodically to collect streamers data",
+  "description": "A Node.js application that runs periodically to calculate statistics for twitch-statistics-page",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
     "start": "tsc & node dist/index.js"
   },
   "devDependencies": {
@@ -14,10 +14,7 @@
     "ts-jest": "^29.2.4"
   },
   "dependencies": {
-    "api-kick": "^1.0.1",
     "axios": "^1.7.4",
-    "cloudscraper": "^4.6.0",
-    "dotenv": "^16.4.5",
-    "ts-retry": "^4.2.5"
+    "dotenv": "^16.4.5"
   }
 }
