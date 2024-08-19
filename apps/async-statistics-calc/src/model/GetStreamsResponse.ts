@@ -25,6 +25,6 @@ export interface GetStreamsResponse {
     pagination: Pagination;
 }
 
-export interface StreamsArray {
-    streams: Stream[];
+export interface StreamsSummary {
+    streamerMap: { [streamerID: string]: Stream[] };
 }
