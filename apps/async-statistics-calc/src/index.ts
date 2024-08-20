@@ -3,7 +3,7 @@ import { calculateSummaries, readAllStreamsFromDirectory } from './twitch/twitch
 
 async function main() {
     console.log("Calculating statistics...");
-    const directoryPath = path.join(__dirname, './test_data/twitch/2024/08/10');
+    const directoryPath = path.join(__dirname, '../test_data/twitch/2024/08/10');
     const allStreamsFromTwitch = await readAllStreamsFromDirectory(directoryPath);
     const summaries = calculateSummaries(allStreamsFromTwitch);
     console.log("Task completed!");

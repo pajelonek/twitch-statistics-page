@@ -43,11 +43,25 @@ export function calculateSummaries(streamMap: StreamMap): void {
     for (const streamerID in streamMap) {
         if (streamMap.hasOwnProperty(streamerID)) {
             const streams = streamMap[streamerID];
-            console.log(`Streamer ID: ${streamerID}`);
-
-            streams.forEach((stream) => {
-                console.log(`Stream: ${JSON.stringify(stream)}`);
-            });
+            const { peakViewers } = calculateStatistics(streams);
         }
     }
+}
+
+type StreamerStatistics = {
+    watchHours: number,
+    avgViewers: number,
+    peakViewers: number
+}
+
+export function calculateStatistics(streams: Stream[]): StreamerStatistics {
+    let watchHours = 0;
+    let avgViewers = 0;
+    let peakViewers = 0;
+
+    for (const stream of streams) {
+        if (stream.viewer_count > peakViewers) peakViewers = stream.viewer_count
+    }
+
+    return {watchHours, avgViewers, peakViewers};
 }

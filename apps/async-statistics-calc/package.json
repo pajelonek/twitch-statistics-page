@@ -7,7 +7,7 @@
     "build": "tsc",
     "copy-files": "mkdir -p dist/test_data && cp -r test_data/* dist/test_data/",
     "copy-files-win": "if not exist dist\\test_data mkdir dist\\test_data && xcopy /E /I test_data dist\\test_data",
-    "start": "tsc &&  node dist/index.js"
+    "start": "tsc &&  node dist/src/index.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
