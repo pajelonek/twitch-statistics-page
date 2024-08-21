@@ -11,9 +11,10 @@ export interface Stream {
     started_at: string;
     language: string;
     thumbnail_url: string;
-    tag_ids: Array<string>;
-    tags: Array<string>;
+    tag_ids: string[];
+    tags: string[];
     is_mature: boolean;
+    timeStamp: Date | undefined
 }
 
 export interface Pagination {
