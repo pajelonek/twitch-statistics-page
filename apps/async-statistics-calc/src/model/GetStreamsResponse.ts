@@ -14,7 +14,7 @@ export interface Stream {
     tag_ids: string[];
     tags: string[];
     is_mature: boolean;
-    timeStamp: Date | undefined
+    timeStamp: Date
 }
 
 export interface Pagination {
