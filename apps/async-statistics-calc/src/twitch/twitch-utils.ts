@@ -90,7 +90,7 @@ export function calculateWatchHoursStrategy(
     stream: Stream,
     previousStream?: Stream
 ): number {
-    const minutesDiff = previousStream
+    const minutesDiff = previousStream // TODO what if streamer was offline, what if streamer haven't streamed. need to checkk when was live last time
         ? minutesBetweenDates(previousStream.timeStamp, stream.timeStamp)
         : minutesSinceMidnight(stream.timeStamp!);
     return ( Math.abs(minutesDiff) / 60) * stream.viewer_count;
