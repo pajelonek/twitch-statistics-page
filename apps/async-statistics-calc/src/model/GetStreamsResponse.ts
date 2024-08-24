@@ -8,7 +8,7 @@ export interface Stream {
     type: string;
     title: string;
     viewer_count: number;
-    started_at: string;
+    started_at: Date;
     language: string;
     thumbnail_url: string;
     tag_ids: string[];
