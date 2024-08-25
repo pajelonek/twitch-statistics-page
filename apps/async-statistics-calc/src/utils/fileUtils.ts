@@ -29,17 +29,25 @@ export function createDateFromString(timestamp: string): Date {
     return new Date(isoString);
 }
 
+export function createSummaryToFile(summaries: StreamersStatistics[]) {
+    if (fs.existsSync(process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!)) {
+        // update file
+        console.log("updating file");
+    }
+    else {
+        console.log("writing file")
+        saveSummariesToFile(summaries);
+    }
+}
 
-export async function saveSummariesToFile(summaries: StreamersStatistics[]): Promise<void> {
+async function saveSummariesToFile(summaries: StreamersStatistics[]): Promise<void> {
     if (process.env.SAVE_OUTPUT_FILE === "false") {
         console.log("Saving is disabled");
     }
     else {
         try {
             const jsonData = JSON.stringify(summaries, null, 2);
-            const filePath = generateFileNameWithDate();
-            await fs.promises.writeFile(filePath, jsonData, 'utf8');
-            console.log(`Summaries saved to ${filePath}`);
+            await fs.promises.writeFile(process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!, jsonData, 'utf8');
         } catch (error) {
             console.error('Error saving summaries to file:', error);
             throw error;
@@ -47,12 +55,16 @@ export async function saveSummariesToFile(summaries: StreamersStatistics[]): Pro
     }
 }
 
+function removeAllOutDatedFiles(directoryPath: string): void {
+    // removeAllFilesAndDirectories()
+}
 
-function generateFileNameWithDate(extension: string = 'json'): string {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(today.getDate()).padStart(2, '0');
-    
-    return `streams_${year}-${month}-${day}.${extension}`;
+
+function removeAllFilesAndDirectories(directoryPath: string): void {
+    try {
+        fs.rm(directoryPath, { recursive: true, force: true });
+        console.log('All files and directories removed successfully');
+    } catch (err) {
+        console.error('Error removing files and directories:', err);
+    }
 }
