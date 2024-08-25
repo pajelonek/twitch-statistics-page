@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { readJsonFile } from '../../src/utils/file-utils';
+import { readJsonFile } from '../../src/utils/fileUtils';
 
 jest.mock('fs');
 
