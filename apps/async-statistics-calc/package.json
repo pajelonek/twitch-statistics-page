@@ -5,9 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
-    "copy-files": "mkdir -p dist/test_data && cp -r test_data/* dist/test_data/",
-    "copy-files-win": "if not exist dist\\test_data mkdir dist\\test_data && xcopy /E /I test_data dist\\test_data",
-    "start": "tsc &&  node dist/src/index.js",
+    "start": "tsc && dotenvx run -f .env.development -- node dist/src/index.js",
     "test": "jest"
   },
   "devDependencies": {
@@ -18,7 +16,7 @@
     "ts-node": "^10.9.2"
   },
   "dependencies": {
-    "axios": "^1.7.4",
-    "dotenv": "^16.4.5"
+    "@dotenvx/dotenvx": "^1.10.3",
+    "axios": "^1.7.4"
   }
 }

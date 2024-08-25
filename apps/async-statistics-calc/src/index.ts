@@ -6,7 +6,7 @@ import { StreamersStatistics, StreamMap } from './twitch/types';
 
 async function main() {
     console.log("Calculating statistics...");
-    const directoryPath = path.join(__dirname, '../test_data/twitch/2024/08/10'); // TODO need to fix that later after POC
+    const directoryPath = path.join(__dirname, process.env.DIRECTORY_PATH!); // TODO need to fix that later after POC
     const allStreamsFromTwitch: StreamMap = await readAllStreamsFromDirectory(directoryPath);
     const summaries: StreamersStatistics[] = calculateSummaries(allStreamsFromTwitch);
     saveSummariesToFile(summaries);

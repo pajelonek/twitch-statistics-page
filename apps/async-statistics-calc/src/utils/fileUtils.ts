@@ -31,14 +31,19 @@ export function createDateFromString(timestamp: string): Date {
 
 
 export async function saveSummariesToFile(summaries: StreamersStatistics[]): Promise<void> {
-    try {
-        const jsonData = JSON.stringify(summaries, null, 2);
-        const filePath = generateFileNameWithDate();
-        await fs.promises.writeFile(filePath, jsonData, 'utf8');
-        console.log(`Summaries saved to ${filePath}`);
-    } catch (error) {
-        console.error('Error saving summaries to file:', error);
-        throw error;
+    if (process.env.SAVE_OUTPUT_FILE === "false") {
+        console.log("Saving is disabled");
+    }
+    else {
+        try {
+            const jsonData = JSON.stringify(summaries, null, 2);
+            const filePath = generateFileNameWithDate();
+            await fs.promises.writeFile(filePath, jsonData, 'utf8');
+            console.log(`Summaries saved to ${filePath}`);
+        } catch (error) {
+            console.error('Error saving summaries to file:', error);
+            throw error;
+        }
     }
 }
 

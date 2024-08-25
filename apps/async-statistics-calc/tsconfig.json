@@ -6,9 +6,13 @@
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
-      "outDir": "./dist"
+      "outDir": "./dist",
+      "resolveJsonModule": true
     },
-    "include": ["./**/*.ts"],
+    "include": [
+      "src/**/*",
+      "test_data/**/*.json",
+    ],
     "exclude": ["node_modules"]
   }
   
