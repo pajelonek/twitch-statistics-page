@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { StreamersStatistics } from '../twitch/calculatorUtils';
+import { StreamersStatistics } from '../twitch/types';
 
 export async function readJsonFile<T>(filePath: string): Promise<T> {
     const data: string = await fs.promises.readFile(filePath, 'utf8');

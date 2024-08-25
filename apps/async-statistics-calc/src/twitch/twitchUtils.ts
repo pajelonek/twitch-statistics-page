@@ -1,5 +1,39 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import { Stream } from "../model/TwitchStreams";
-import { StreamersStatistics, StreamerInfo, StreamerStatistics } from "./types";
+import { createDateFromString, extractTimestampFromFilename, readJsonFile } from "../utils/fileUtils";
+import { StreamersStatistics, StreamerInfo, StreamerStatistics, StreamMap } from "./types";
+
+export async function readAllStreamsFromDirectory(directoryPath: string): Promise<StreamMap> {
+    const streamResponseFromAllDay: StreamMap = {};
+    const files = await fs.promises.readdir(directoryPath);
+
+    await Promise.all(files.map(async (file) => {
+        const filePath = path.join(directoryPath, file);
+        const stats = await fs.promises.stat(filePath);
+
+        if (!stats.isFile()) {
+            console.log("Destination is not a file: ", stats);
+            return;
+        }
+
+        const fileTimeStamp = createDateFromString(extractTimestampFromFilename(filePath));
+        const streamsResponse: Stream[] = await readJsonFile<Stream[]>(filePath);
+
+        streamsResponse.forEach(streamResponse => {
+            const { user_id } = streamResponse;
+
+            if (user_id) {
+                streamResponseFromAllDay[user_id] ||= [];
+                streamResponse.started_at = new Date(streamResponse.started_at)
+                streamResponse.timeStamp = fileTimeStamp;
+                streamResponseFromAllDay[user_id].push(streamResponse);
+            }
+        });
+    }));
+
+    return streamResponseFromAllDay;
+}
 
 export function calculateSummaries(streamMap: StreamMap): StreamersStatistics[] {
     return Object.keys(streamMap).map(streamerID => {

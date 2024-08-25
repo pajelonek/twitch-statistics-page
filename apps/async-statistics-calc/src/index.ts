@@ -1,7 +1,8 @@
 import * as path from 'path';
-import { readAllStreamsFromDirectory, StreamMap } from './twitch/twitchUtils';
-import { calculateSummaries, StreamersStatistics } from './twitch/calculatorUtils';
+import { calculateSummaries } from './twitch/calculatorUtils';
 import { saveSummariesToFile } from './utils/fileUtils';
+import { readAllStreamsFromDirectory } from './twitch/twitchUtils';
+import { StreamersStatistics, StreamMap } from './twitch/types';
 
 async function main() {
     console.log("Calculating statistics...");
