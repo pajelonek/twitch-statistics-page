@@ -37,6 +37,8 @@ jobs:
         # Copy all files from twitchDir to the target repository
         mkdir -p data/twitch
 
+        ls -a
+
         cp -r twitch/twitchDir/* data/twitch/
 
         # Go to the repository dir
