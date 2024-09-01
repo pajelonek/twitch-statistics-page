@@ -88,7 +88,6 @@ export function getDirectoryPath(): string {
         return path.join(__dirname, process.env.DIRECTORY_PATH!);
     }
     else {
-        console.log(getYesterdayPath())
         return getYesterdayPath()
     }
 }
@@ -105,15 +104,6 @@ function getYesterdayPath() {
     
     const yesterdaysPath = path.join(year.toString(), month, day);
     
-
-    const currentDir = process.cwd(); // "/home/runner/work/twitch-statistics-page/twitch-statistics-page/apps/async-statistics-calc"
-    const targetDir = path.join(currentDir, 'dist/data/twitch', yesterdaysPath);
-
-    if (fs.existsSync(targetDir)) {
-        console.log("jest")
-    }
-    else {
-        console.log("Nie ma")
-    }
-  return yesterdaysPath;
+    const targetDir = path.join(process.cwd(), process.env.DIRECTORY_PATH!, yesterdaysPath);
+    return targetDir;
 }
