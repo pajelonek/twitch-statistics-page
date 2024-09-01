@@ -107,8 +107,8 @@ function getYesterdayPath() {
     
 
     const currentDir = process.cwd(); // "/home/runner/work/twitch-statistics-page/twitch-statistics-page/apps/async-statistics-calc"
-    const targetDir = path.join(currentDir, 'dist', yesterdaysPath);
-    console.log("Test dir :" + targetDir)
+    const targetDir = path.join(currentDir, 'dist/data/twitch', yesterdaysPath);
+
     if (fs.existsSync(targetDir)) {
         console.log("jest")
     }
