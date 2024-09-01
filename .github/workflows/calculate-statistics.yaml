@@ -1,4 +1,4 @@
-name: Fetch Twitch Data
+name: Calculate statistics
 
 on:
   workflow_dispatch:
