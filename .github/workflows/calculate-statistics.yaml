@@ -37,14 +37,14 @@ jobs:
         # Copy all files from twitchDir to the target repository
         mkdir -p data/twitch
 
-        ls -a
+        ls -lR
 
         cp -r twitch/twitchDir/* data/twitch/
 
         # Go to the repository dir
         cd data
 
-        ls
+        ls -lR
 
 
     - name: Run script
