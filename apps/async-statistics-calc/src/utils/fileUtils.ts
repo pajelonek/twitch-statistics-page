@@ -1,5 +1,8 @@
 import * as fs from 'fs';
+import * as path from 'path';
+
 import { StreamersStatistics } from '../twitch/types';
+import { updateSummaries } from '../twitch/calculatorUtils';
 
 export async function readJsonFile<T>(filePath: string): Promise<T> {
     const data: string = await fs.promises.readFile(filePath, 'utf8');
@@ -29,13 +32,16 @@ export function createDateFromString(timestamp: string): Date {
     return new Date(isoString);
 }
 
-export function createSummaryToFile(summaries: StreamersStatistics[]) {
-    if (fs.existsSync(process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!)) {
-        // update file
-        console.log("updating file");
+export async function createSummaryToFile(summaries: StreamersStatistics[]) {
+    const summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;
+    if (fs.existsSync(summaryFilePath)) {
+        console.log("Updating already existing summary file");
+        let summaryFile: StreamersStatistics[] = await readJsonFile<StreamersStatistics[]>(summaryFilePath);
+        const newSummaryFile = updateSummaries(summaryFile, summaries);
+        saveSummariesToFile(newSummaryFile);
     }
     else {
-        console.log("writing file")
+        console.log("Creating new summary file")
         saveSummariesToFile(summaries);
     }
 }
@@ -55,16 +61,24 @@ async function saveSummariesToFile(summaries: StreamersStatistics[]): Promise<vo
     }
 }
 
-function removeAllOutDatedFiles(directoryPath: string): void {
-    // removeAllFilesAndDirectories()
-}
-
-
-function removeAllFilesAndDirectories(directoryPath: string): void {
+export function removeAllFilesFromDirectory(dirPath: string): void {
     try {
-        fs.rm(directoryPath, { recursive: true, force: true });
-        console.log('All files and directories removed successfully');
+        const files = fs.readdirSync(dirPath);
+
+        files.forEach((file) => {
+            const filePath = path.join(dirPath, file);
+            
+            if (fs.statSync(filePath).isFile()) {
+                fs.unlinkSync(filePath);
+            }
+        });
+
+        fs.rmdirSync(dirPath);
+        console.log(`Removed directory: ${dirPath}`);
+  
+        console.log('All files have been removed.');
     } catch (err) {
-        console.error('Error removing files and directories:', err);
+      console.error(`Error removing files: ${err}`);
     }
 }
+  

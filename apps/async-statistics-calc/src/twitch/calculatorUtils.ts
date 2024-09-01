@@ -65,14 +65,39 @@ export function calculateWatchHoursStrategy(
     return ( Math.abs(minutesDiff) / 60) * stream.viewer_count;
 }
 
-function minutesSinceMidnight(date: Date): number {
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-
-    return hours * 60 + minutes;
-}
-
 function minutesBetweenDates(firstDate: Date, secondDate: Date): number {
     const milliDiff = firstDate.getTime() - secondDate.getTime();
     return milliDiff / (1000 * 60);
 }
+
+export function updateSummaries(existingSummaries: StreamersStatistics[], newSummaries: StreamersStatistics[]): StreamersStatistics[] {
+    const summaryMap = new Map<string, StreamersStatistics>();
+  
+    existingSummaries.forEach(summary => {
+      summaryMap.set(summary.streamerId, summary);
+    });
+  
+    newSummaries.forEach(newSummary => {
+        if (summaryMap.has(newSummary.streamerId)) {
+            let streamerStatistics = summaryMap.get(newSummary.streamerId)!;
+            const newStatistics = mergeStreamerStatistics(streamerStatistics, newSummary);
+            summaryMap.set(newSummary.streamerId, newStatistics);
+        }
+        else {
+            summaryMap.set(newSummary.streamerId, newSummary);
+        }
+    });
+  
+    return Array.from(summaryMap.values());
+}
+
+export function mergeStreamerStatistics(currentStatistics: StreamersStatistics, newStatistics: StreamersStatistics) {
+  currentStatistics.statistics.peakViewers = Math.max(
+    currentStatistics.statistics.peakViewers,
+    newStatistics.statistics.peakViewers
+  );
+  currentStatistics.statistics.watchHours = currentStatistics.statistics.watchHours + newStatistics.statistics.watchHours;
+  
+  return currentStatistics;
+}
+

@@ -7,18 +7,6 @@ export type StreamersStatistics = {
     statistics: StreamerStatistics
 }
 
-// TODO you get the idea, make this have more sense 
-// export interface StreamerInfo2<T> {
-//     streamerName: string;
-//     statistics: StreamerStatistics;
-//     info: T
-// }
-
-// export interface TwitchInto {
-//     streamerLogin: string;
-//     streamerName: string;
-// }
-
 export type StreamerInfo = {
     streamerId: string;
     streamerLogin: string;
