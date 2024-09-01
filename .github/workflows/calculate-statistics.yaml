@@ -34,6 +34,7 @@ jobs:
         # Clone the target repository
         git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git data
 
+        ls -lR
 
     - name: Run script
       working-directory: apps/async-statistics-calc
