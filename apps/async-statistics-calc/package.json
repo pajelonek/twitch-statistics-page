@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && dotenvx run -f .env.development -- node dist/src/index.js",
+    "start-prod": "tsc && dotenvx run -f .env.production -- node dist/src/index.js",
     "test": "jest"
   },
   "devDependencies": {
