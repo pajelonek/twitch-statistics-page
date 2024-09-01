@@ -82,3 +82,29 @@ export function clearDirectory(dirPath: string): void {
     }
 }
   
+export function getDirectoryPath(): string {
+    const isMocked = process.env.MOCKED!;
+    if (isMocked === "true") {
+        return path.join(__dirname, process.env.DIRECTORY_PATH!);
+    }
+    else {
+        console.log(getYesterdayPath())
+        return getYesterdayPath()
+    }
+}
+
+function getYesterdayPath() {
+
+    const today = new Date();
+
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const year = yesterday.getFullYear();
+    const month = (yesterday.getMonth() + 1).toString().padStart(2, '0'); 
+    const day = yesterday.getDate().toString().padStart(2, '0');
+    
+    const yesterdaysPath = path.join('data', 'twitch', year.toString(), month, day);
+    
+  return yesterdaysPath;
+}
