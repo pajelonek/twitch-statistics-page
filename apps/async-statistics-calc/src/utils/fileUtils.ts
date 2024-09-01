@@ -104,7 +104,7 @@ function getYesterdayPath() {
     const month = (yesterday.getMonth() + 1).toString().padStart(2, '0'); 
     const day = yesterday.getDate().toString().padStart(2, '0');
     
-    const yesterdaysPath = path.join('data', 'twitch', year.toString(), month, day);
+    const yesterdaysPath = path.join('/data', 'twitch', year.toString(), month, day);
     
   return yesterdaysPath;
 }
