@@ -36,6 +36,12 @@ jobs:
 
         ls -lR
 
+        echo "Test 1"
+        ls -la data/twitch/2024/08/31
+
+        echo "Test2"
+        echo "Current directory: $(pwd)"
+
     - name: Run script
       working-directory: apps/async-statistics-calc
       run: npm run start-prod
