@@ -35,21 +35,6 @@ export async function readAllStreamsFromDirectory(directoryPath: string): Promis
     return streamResponseFromAllDay;
 }
 
-export function calculateSummaries(streamMap: StreamMap): StreamersStatistics[] {
-    return Object.keys(streamMap).map(streamerID => {
-        const streams = streamMap[streamerID];
-        const statistics = calculateStatistics(streams);
-        const info = extractStreamerInfo(streams[0]);
-        
-        return { 
-            streamerId: info.streamerId,
-            streamerLogin: info.streamerLogin,
-            streamerName: info.streamerName,
-            statistics 
-        };
-    });
-}
-
 function extractStreamerInfo(stream: Stream): StreamerInfo {
     return {
         streamerId: stream.user_id,
@@ -63,11 +48,10 @@ export function calculateStatistics(streams: Stream[]): StreamerStatistics {
     let totalViewers = 0;
     let peakViewers = 0;
     let previousStream: Stream | undefined;
-
+    let streamedHours = 0;
     streams.forEach(stream => {
         peakViewers = Math.max(stream.viewer_count, peakViewers);
         totalViewers += stream.viewer_count;
-
         watchHours += calculateWatchHours(stream, previousStream);
         previousStream = stream;
     });
@@ -75,7 +59,8 @@ export function calculateStatistics(streams: Stream[]): StreamerStatistics {
     return {
         watchHours,
         avgViewers: totalViewers / streams.length || 0,
-        peakViewers
+        peakViewers,
+        streamedHours
     };
 }
 

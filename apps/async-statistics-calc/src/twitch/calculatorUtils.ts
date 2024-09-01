@@ -29,23 +29,34 @@ export function calculateStatistics(streams: Stream[]): StreamerStatistics {
     let avgViewers = 0;
     let peakViewers = 0;
     let prevStream: Stream | undefined;
+    let streamedHours = 0;
 
     streams.forEach(stream => {
         peakViewers = calculatePeakViewersStrategy(stream.viewer_count, peakViewers);
-        avgViewers = calculateAvgViewersStrategy(stream, avgViewers);
+        avgViewers = calculateAvgViewersStrategy(stream, prevStream, avgViewers, streamedHours);
         watchHours += calculateWatchHoursStrategy(stream, prevStream);
+        streamedHours += calculateStreamHoursStrategy(stream, prevStream)
         prevStream = stream;
     });
 
-    return { watchHours, avgViewers, peakViewers };
+    return { watchHours, avgViewers, peakViewers, streamedHours };
 }
 
 export function calculatePeakViewersStrategy(currentViewersCount: number, peakViewersCount: number): number {
     return Math.max(currentViewersCount, peakViewersCount);
 }
 
-export function calculateAvgViewersStrategy(stream: Stream, oldAvgViewers: number): number {
-    return 0;
+export function calculateAvgViewersStrategy(stream: Stream, previousStream: Stream | undefined, oldAvgViewers: number, oldHoursStreamed: number): number {
+    let minutesDiff;
+    if (!previousStream) return stream.viewer_count;
+
+    if (stream.started_at > previousStream.timeStamp) {
+        minutesDiff = minutesBetweenDates(stream.timeStamp, stream.started_at);
+    }
+    else {
+        minutesDiff = minutesBetweenDates(stream.timeStamp, previousStream.timeStamp);
+    }
+    return ((oldAvgViewers * oldHoursStreamed) + (stream.viewer_count * (minutesDiff / 60))) / (oldHoursStreamed +  (minutesDiff / 60));
 }
 
 export function calculateWatchHoursStrategy(
@@ -63,6 +74,23 @@ export function calculateWatchHoursStrategy(
         minutesDiff = minutesBetweenDates(stream.timeStamp, stream.started_at)
     }
     return ( Math.abs(minutesDiff) / 60) * stream.viewer_count;
+}
+
+export function calculateStreamHoursStrategy(
+    stream: Stream,
+    previousStream?: Stream
+): number {
+    let minutesDiff;
+    if (previousStream) {
+        if (stream.started_at > previousStream.timeStamp)
+            minutesDiff = minutesBetweenDates(stream.timeStamp, stream.started_at)
+        else {
+            minutesDiff = minutesBetweenDates(stream.timeStamp, previousStream.timeStamp)
+            }
+    } else {
+        minutesDiff = minutesBetweenDates(stream.timeStamp, stream.started_at)
+    }
+    return Math.abs(minutesDiff) / 60;
 }
 
 function minutesBetweenDates(firstDate: Date, secondDate: Date): number {
@@ -91,13 +119,20 @@ export function updateSummaries(existingSummaries: StreamersStatistics[], newSum
     return Array.from(summaryMap.values());
 }
 
-export function mergeStreamerStatistics(currentStatistics: StreamersStatistics, newStatistics: StreamersStatistics) {
-  currentStatistics.statistics.peakViewers = Math.max(
-    currentStatistics.statistics.peakViewers,
-    newStatistics.statistics.peakViewers
-  );
-  currentStatistics.statistics.watchHours = currentStatistics.statistics.watchHours + newStatistics.statistics.watchHours;
+export function mergeStreamerStatistics(
+    currentStatistics: StreamersStatistics,
+    newStatistics: StreamersStatistics
+  ): StreamersStatistics {
+    const currentStats = currentStatistics.statistics;
+    const newStats = newStatistics.statistics;
   
-  return currentStatistics;
-}
-
+    currentStats.peakViewers = Math.max(currentStats.peakViewers, newStats.peakViewers);
+    currentStats.watchHours += newStats.watchHours;
+    currentStats.streamedHours += newStats.streamedHours;
+    
+    currentStats.avgViewers =
+      (currentStats.avgViewers * currentStats.streamedHours + newStats.avgViewers * newStats.streamedHours) /
+      (currentStats.streamedHours + newStats.streamedHours);
+  
+    return currentStatistics;
+  }

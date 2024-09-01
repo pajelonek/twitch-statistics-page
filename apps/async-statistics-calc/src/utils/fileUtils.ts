@@ -38,30 +38,30 @@ export async function createSummaryToFile(summaries: StreamersStatistics[]) {
         console.log("Updating already existing summary file");
         let summaryFile: StreamersStatistics[] = await readJsonFile<StreamersStatistics[]>(summaryFilePath);
         const newSummaryFile = updateSummaries(summaryFile, summaries);
-        saveSummariesToFile(newSummaryFile);
+        saveToFile<StreamersStatistics[]>(newSummaryFile);
     }
     else {
         console.log("Creating new summary file")
-        saveSummariesToFile(summaries);
+        saveToFile<StreamersStatistics[]>(summaries);
     }
 }
 
-async function saveSummariesToFile(summaries: StreamersStatistics[]): Promise<void> {
+async function saveToFile<T>(content: T): Promise<void> {
     if (process.env.SAVE_OUTPUT_FILE === "false") {
         console.log("Saving is disabled");
     }
     else {
         try {
-            const jsonData = JSON.stringify(summaries, null, 2);
+            const jsonData = JSON.stringify(content, null, 2);
             await fs.promises.writeFile(process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!, jsonData, 'utf8');
         } catch (error) {
-            console.error('Error saving summaries to file:', error);
+            console.error('Error saving to file:', error);
             throw error;
         }
     }
 }
 
-export function removeAllFilesFromDirectory(dirPath: string): void {
+export function clearDirectory(dirPath: string): void {
     try {
         const files = fs.readdirSync(dirPath);
 

@@ -17,6 +17,7 @@ export type StreamerStatistics = {
     watchHours: number;
     avgViewers: number;
     peakViewers: number;
+    streamedHours: number;
 }
 
 export type StreamMap = { [streamerID: string]: Stream[] };
