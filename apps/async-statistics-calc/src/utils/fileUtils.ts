@@ -94,7 +94,13 @@ export function getDirectoryPath(): string {
 }
 
 function getYesterdayPath() {
-
+    // test check
+    if (fs.existsSync("data/twitch/2024/08/31")) {
+        console.log("jest")
+    }
+    else {
+        console.log("Nie ma")
+    }
     const today = new Date();
 
     const yesterday = new Date();
