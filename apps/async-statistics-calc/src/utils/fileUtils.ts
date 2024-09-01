@@ -94,13 +94,6 @@ export function getDirectoryPath(): string {
 }
 
 function getYesterdayPath() {
-    // test check
-    if (fs.existsSync("/home/runner/work/twitch-statistics-page/twitch-statistics-page/apps/async-statistics-calc/dist/data/twitch/2024/08/31")) {
-        console.log("jest")
-    }
-    else {
-        console.log("Nie ma")
-    }
     const today = new Date();
 
     const yesterday = new Date();
@@ -110,7 +103,17 @@ function getYesterdayPath() {
     const month = (yesterday.getMonth() + 1).toString().padStart(2, '0'); 
     const day = yesterday.getDate().toString().padStart(2, '0');
     
-    const yesterdaysPath = path.join('./data', 'twitch', year.toString(), month, day);
+    const yesterdaysPath = path.join(year.toString(), month, day);
     
+
+    const currentDir = process.cwd(); // "/home/runner/work/twitch-statistics-page/twitch-statistics-page/apps/async-statistics-calc"
+    const targetDir = path.join(currentDir, 'dist', yesterdaysPath);
+    console.log("Test dir :" + targetDir)
+    if (fs.existsSync(targetDir)) {
+        console.log("jest")
+    }
+    else {
+        console.log("Nie ma")
+    }
   return yesterdaysPath;
 }
