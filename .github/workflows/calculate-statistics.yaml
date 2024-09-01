@@ -34,18 +34,6 @@ jobs:
         # Clone the target repository
         git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git data
 
-        # Copy all files from twitchDir to the target repository
-        mkdir -p data/twitch
-
-        ls -lR
-
-        cp -r twitch/twitchDir/* data/twitch/
-
-        # Go to the repository dir
-        cd data
-
-        ls -lR
-
 
     - name: Run script
       working-directory: apps/async-statistics-calc
