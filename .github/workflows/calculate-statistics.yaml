@@ -26,7 +26,7 @@ jobs:
       working-directory: apps/async-statistics-calc
       run: npm run build
 
-    - name: Add file to another repository
+    - name: Copy database repository
       env:
         TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
@@ -35,14 +35,6 @@ jobs:
 
         # Clone the target repository
         git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git data
-
-        ls -lR
-
-        echo "Test 1"
-        ls -la data/twitch/2024/08/31
-
-        echo "Test2"
-        echo "Current directory: $(pwd)"
 
     - name: Run script
       working-directory: apps/async-statistics-calc
