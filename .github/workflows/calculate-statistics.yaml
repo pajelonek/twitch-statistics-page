@@ -47,7 +47,7 @@ jobs:
         # Configure Git with credentials
         git config user.name "twitch-statistics-bot"
         git config user.email "actions@github.com"
-        cd apps/async-statistics-calc/dist
+        cd apps/async-statistics-calc/dist/data
         ls 
         # Add, commit, and push changes
         git add .
