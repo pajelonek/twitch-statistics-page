@@ -45,9 +45,6 @@ jobs:
         TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       run: |
         # Configure Git with credentials
-        cd apps/twitch-db-async-fetcher/dist/data
-        
-        # Configure Git with credentials
         git config user.name "twitch-statistics-bot"
         git config user.email "actions@github.com"
 
