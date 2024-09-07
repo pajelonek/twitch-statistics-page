@@ -33,7 +33,8 @@ export function createDateFromString(timestamp: string): Date {
 }
 
 export async function createSummaryToFile(summaries: StreamersStatistics[]) {
-    const summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;
+    const summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;\
+    console.log("summary: " + summaryFilePath)
     if (fs.existsSync(summaryFilePath)) {
         console.log("Updating already existing summary file");
         let summaryFile: StreamersStatistics[] = await readJsonFile<StreamersStatistics[]>(summaryFilePath);
