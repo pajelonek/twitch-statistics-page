@@ -82,8 +82,8 @@ export function clearDirectory(dirPath: string): void {
     }
 }
   
-export function getDirectoryPath(): string {
-    const isMocked = process.env.MOCKED!;
+export function getDirectoryPath(): string { 
+    const isMocked = process.env.MOCKED!; //TODO REFACTOR AS THIS NAME DOES NOT MAKE SENSE WITH WHAT IS BELOW
     if (isMocked === "true") {
         return path.join(__dirname, process.env.DIRECTORY_PATH!);
     }
