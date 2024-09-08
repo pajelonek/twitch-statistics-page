@@ -39,7 +39,7 @@ export async function createSummaryToFile(summaries: StreamersStatistics[]) {
         summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;
     }
     else {
-        summaryFilePath =  getYesterdayPath()
+        summaryFilePath =   getYesterdaysMonthPath() + process.env.SUMMARY_OUTPUT_FILENAME!;
     }
     console.log("summary: " + summaryFilePath)
     if (fs.existsSync(summaryFilePath)) {
