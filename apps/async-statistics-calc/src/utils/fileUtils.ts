@@ -33,7 +33,14 @@ export function createDateFromString(timestamp: string): Date {
 }
 
 export async function createSummaryToFile(summaries: StreamersStatistics[]) {
-    const summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;
+    let summaryFilePath;
+    const isMocked = process.env.MOCKED!; 
+    if (isMocked === "true") {
+        summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;
+    }
+    else {
+        summaryFilePath =  getYesterdayPath()
+    }
     console.log("summary: " + summaryFilePath)
     if (fs.existsSync(summaryFilePath)) {
         console.log("Updating already existing summary file");
@@ -104,6 +111,21 @@ function getYesterdayPath() {
     const day = yesterday.getDate().toString().padStart(2, '0');
     
     const yesterdaysPath = path.join(year.toString(), month, day);
+    
+    const targetDir = path.join(process.cwd(), process.env.DIRECTORY_PATH!, yesterdaysPath);
+    return targetDir;
+}
+
+function getYesterdaysMonthPath() {
+    const today = new Date();
+
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const year = yesterday.getFullYear();
+    const month = (yesterday.getMonth() + 1).toString().padStart(2, '0'); 
+    
+    const yesterdaysPath = path.join(year.toString(), month);
     
     const targetDir = path.join(process.cwd(), process.env.DIRECTORY_PATH!, yesterdaysPath);
     return targetDir;
