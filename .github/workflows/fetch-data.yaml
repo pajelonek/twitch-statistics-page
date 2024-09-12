@@ -16,15 +16,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: apps/twitch-db-async-fetcher/package-lock.json
 
     - name: Install dependencies
       working-directory: apps/twitch-db-async-fetcher
-      run: npm install
-  
-    - name: Build TypeScript
-      working-directory: apps/twitch-db-async-fetcher
-      run: npm run build
+      run: npm install --production
 
     - name: Run script
       working-directory: apps/twitch-db-async-fetcher
