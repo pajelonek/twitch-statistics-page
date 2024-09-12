@@ -47,10 +47,8 @@ jobs:
 
         # Copy all files from twitchDir to the target repository
         mkdir -p target-db/twitch
-        mkdir -p target-db/kick
         
         cp -r twitch/twitchDir/* target-db/twitch/
-        cp -r kick/kickDir/* target-db/kick/
 
         # Go to the repository dir
         cd target-db
