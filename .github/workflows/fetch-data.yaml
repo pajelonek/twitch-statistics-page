@@ -24,6 +24,10 @@ jobs:
       working-directory: apps/twitch-db-async-fetcher
       run: npm install --production
 
+    - name: Build
+      working-directory: apps/twitch-db-async-fetcher
+      run: npm run build
+
     - name: Run script
       working-directory: apps/twitch-db-async-fetcher
       run: npm start
