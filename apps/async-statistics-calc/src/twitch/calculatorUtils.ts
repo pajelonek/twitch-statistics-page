@@ -3,17 +3,20 @@ import { StreamersStatistics, StreamerStatistics, StreamerInfo, StreamMap } from
 
 
 export function calculateSummaries(streamMap: StreamMap): StreamersStatistics[] {
-    return Object.keys(streamMap).map(streamerID => {
-        const streams = streamMap[streamerID];
-        const statistics: StreamerStatistics = calculateStatistics(streams);
-        const info: StreamerInfo = enhanceStatistics(streams[0]);
-        
-        return { statistics, 
-            streamerId: info.streamerId,
-            streamerLogin: info.streamerLogin,
-            streamerName: info.streamerName
-        };
-    });
+    return Object.keys(streamMap)
+        .map(streamerID => {
+            const streams = streamMap[streamerID];
+            const statistics: StreamerStatistics = calculateStatistics(streams);
+            const info: StreamerInfo = enhanceStatistics(streams[0]);
+
+            return { 
+                statistics, 
+                streamerId: info.streamerId,
+                streamerLogin: info.streamerLogin,
+                streamerName: info.streamerName
+            };
+        })
+        .sort((a, b) => b.statistics.watchHours - a.statistics.watchHours); 
 }
 
 function enhanceStatistics(stream: Stream): StreamerInfo {
