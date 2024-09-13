@@ -1,7 +1,7 @@
 {
   "name": "async-statistics-calc",
   "version": "1.0.0",
-  "description": "A Node.js application that runs periodically to calculate statistics for twitch-statistics-page",
+  "description": "A script that runs daily to calculate statistics for previous day",
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
@@ -10,14 +10,14 @@
     "test": "jest"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
     "@types/jest": "^29.5.12",
+    "@types/node": "^22.5.4",
+    "jest": "^29.7.0",
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.10.3",
-    "axios": "^1.7.4",
-    "@types/node": "^22.4.1"
+    "axios": "^1.7.4"
   }
 }

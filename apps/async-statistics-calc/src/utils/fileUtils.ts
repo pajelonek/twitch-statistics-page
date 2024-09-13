@@ -32,15 +32,9 @@ export function createDateFromString(timestamp: string): Date {
     return new Date(isoString);
 }
 
-export async function createSummaryToFile(summaries: StreamersStatistics[]) {
-    let summaryFilePath;
-    const isMocked = process.env.MOCKED!; 
-    if (isMocked === "true") {
-        summaryFilePath = process.env.SUMMARY_OUTPUT_DIR! + process.env.SUMMARY_OUTPUT_FILENAME!;
-    }
-    else {
-        summaryFilePath =   getYesterdaysMonthPath() + '/' + process.env.SUMMARY_OUTPUT_FILENAME!;
-    }
+export async function persistSummaries(summaries: StreamersStatistics[]) {
+    let summaryFilePath = getSummaryFilePath();
+
     console.log("summary: " + summaryFilePath)
     if (fs.existsSync(summaryFilePath)) {
         console.log("Updating already existing summary file");
@@ -51,6 +45,17 @@ export async function createSummaryToFile(summaries: StreamersStatistics[]) {
     else {
         console.log("Creating new summary file")
         saveToFile<StreamersStatistics[]>(summaries, summaryFilePath);
+    }
+}
+
+function getSummaryFilePath(): string {
+    const isMocked = process.env.MOCKED!;
+    let basePath = path.join(process.cwd(), process.env.DIRECTORY_PATH!);
+    if (isMocked === "true") {
+        return path.join(basePath, process.env.DIRECTORY_MOCKED_YESTERDAY_MONTH_PATH!, '/', process.env.SUMMARY_OUTPUT_FILENAME!);
+    }
+    else {
+        return path.join(basePath, getYesterdayPath(false), '/', process.env.SUMMARY_OUTPUT_FILENAME!);
     }
 }
 
@@ -91,16 +96,16 @@ export function clearDirectory(dirPath: string): void {
 }
   
 export function getDirectoryPath(): string { 
-    const isMocked = process.env.MOCKED!; //TODO REFACTOR AS THIS NAME DOES NOT MAKE SENSE WITH WHAT IS BELOW
+    const isMocked = process.env.MOCKED!;
+    let basePath = path.join(process.cwd(), process.env.DIRECTORY_PATH!);
     if (isMocked === "true") {
-        return path.join(process.cwd(), process.env.DIRECTORY_PATH!);
-    }
-    else {
-        return getYesterdayPath()
+        return path.join(basePath, process.env.DIRECTORY_MOCKED_YESTERDAY_PATH!);
+    } else {
+        return path.join(basePath, getYesterdayPath());
     }
 }
 
-function getYesterdayPath() {
+function getYesterdayPath(includeDay = true): string {
     const today = new Date();
 
     const yesterday = new Date();
@@ -108,25 +113,11 @@ function getYesterdayPath() {
 
     const year = yesterday.getFullYear();
     const month = (yesterday.getMonth() + 1).toString().padStart(2, '0'); 
+
+    if (!includeDay) {
+        return path.join(year.toString(), month);
+    }
+
     const day = yesterday.getDate().toString().padStart(2, '0');
-    
-    const yesterdaysPath = path.join(year.toString(), month, day);
-    
-    const targetDir = path.join(process.cwd(), process.env.DIRECTORY_PATH!, yesterdaysPath);
-    return targetDir;
-}
-
-function getYesterdaysMonthPath() {
-    const today = new Date();
-
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-
-    const year = yesterday.getFullYear();
-    const month = (yesterday.getMonth() + 1).toString().padStart(2, '0'); 
-    
-    const yesterdaysPath = path.join(year.toString(), month);
-    
-    const targetDir = path.join(process.cwd(), process.env.DIRECTORY_PATH!, yesterdaysPath);
-    return targetDir;
+    return path.join(year.toString(), month, day);
 }

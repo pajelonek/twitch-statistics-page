@@ -8,7 +8,7 @@ export async function readAllStreamsFromDirectory(directoryPath: string): Promis
     const streamResponseFromAllDay: StreamMap = {};
     const files = await fs.promises.readdir(directoryPath);
 
-    await Promise.all(files.map(async (file) => {
+    await Promise.all(files.map(async (file: string) => {
         const filePath = path.join(directoryPath, file);
         const stats = await fs.promises.stat(filePath);
 
@@ -33,14 +33,6 @@ export async function readAllStreamsFromDirectory(directoryPath: string): Promis
     }));
 
     return streamResponseFromAllDay;
-}
-
-function extractStreamerInfo(stream: Stream): StreamerInfo {
-    return {
-        streamerId: stream.user_id,
-        streamerLogin: stream.user_login,
-        streamerName: stream.user_name
-    };
 }
 
 export function calculateStatistics(streams: Stream[]): StreamerStatistics {
