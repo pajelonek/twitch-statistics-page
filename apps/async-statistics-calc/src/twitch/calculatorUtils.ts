@@ -120,7 +120,7 @@ export function updateSummaries(existingSummaries: StreamersStatistics[], newSum
         }
     });
   
-    return Array.from(summaryMap.values());
+    return Array.from(summaryMap.values()).sort((a, b) => b.statistics.watchHours - a.statistics.watchHours);
 }
 
 export function mergeStreamerStatistics(
