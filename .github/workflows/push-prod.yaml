@@ -21,12 +21,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -42,6 +36,16 @@ jobs:
         working-directory: apps/twitch-statistics-page
         run: npm run build
 
+      - name: Download database repository
+        env:
+          TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+        run: |
+          # Configure Git with credentials
+          cd apps/twitch-statistics-page/dist
+  
+          # Clone the target repository
+          git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git data
+  
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
