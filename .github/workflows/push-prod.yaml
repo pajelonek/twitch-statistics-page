@@ -41,12 +41,11 @@ jobs:
           TARGET_REPO_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
         run: |
           # Configure Git with credentials
-          cd apps/twitch-statistics-page/dist
+          cd apps/twitch-statistics-page/dist/data
           ls 
-          mkdir data
 
           # Clone the target repository
-          git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git data
+          git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git live
   
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
