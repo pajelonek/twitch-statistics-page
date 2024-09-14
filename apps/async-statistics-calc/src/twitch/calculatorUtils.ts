@@ -59,24 +59,25 @@ export function calculateAvgViewersStrategy(stream: Stream, previousStream: Stre
     else {
         minutesDiff = minutesBetweenDates(stream.timeStamp, previousStream.timeStamp);
     }
-    return ((oldAvgViewers * oldHoursStreamed) + (stream.viewer_count * (minutesDiff / 60))) / (oldHoursStreamed +  (minutesDiff / 60));
+    return Math.ceil(((oldAvgViewers * oldHoursStreamed) + (stream.viewer_count * (minutesDiff / 60))) / (oldHoursStreamed +  (minutesDiff / 60)));
 }
 
 export function calculateWatchHoursStrategy(
     stream: Stream,
     previousStream?: Stream
 ): number {
-    let minutesDiff;
-    if (previousStream) {
-        if (stream.started_at > previousStream.timeStamp)
-            minutesDiff = minutesBetweenDates(stream.timeStamp, stream.started_at)
-        else {
-            minutesDiff = minutesBetweenDates(stream.timeStamp, previousStream.timeStamp)
-            }
-    } else {
-        minutesDiff = minutesBetweenDates(stream.timeStamp, stream.started_at)
-    }
-    return ( Math.abs(minutesDiff) / 60) * stream.viewer_count;
+    const minutesDiff = previousStream
+        ? minutesBetweenDates(
+            stream.timeStamp, 
+            stream.started_at > previousStream.timeStamp ? stream.started_at : previousStream.timeStamp
+          )
+        : minutesBetweenDates(stream.timeStamp, stream.started_at);
+
+    const viewerCount = previousStream
+        ?  (stream.viewer_count + previousStream.viewer_count) / 2
+        : stream.viewer_count;
+
+    return Math.ceil((Math.abs(minutesDiff) / 60) * viewerCount);
 }
 
 export function calculateStreamHoursStrategy(
