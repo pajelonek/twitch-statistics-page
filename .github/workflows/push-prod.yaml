@@ -42,7 +42,9 @@ jobs:
         run: |
           # Configure Git with credentials
           cd apps/twitch-statistics-page/dist
-  
+          ls 
+          mkdir data
+
           # Clone the target repository
           git clone https://x-access-token:${{secrets.REPO_ACCESS_TOKEN}}@github.com/pajelonek/twitch-statistics-db.git data
   
